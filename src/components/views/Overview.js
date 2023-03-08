@@ -1,8 +1,8 @@
-import {useEffect, useState} from 'react';
-import {api, handleError} from 'helpers/api';
-import {Spinner} from 'components/ui/Spinner';
-import {Button} from 'components/ui/Button';
-import {useHistory} from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { api, handleError } from 'helpers/api';
+import { Spinner } from 'components/ui/Spinner';
+import { Button } from 'components/ui/Button';
+import { useHistory } from 'react-router-dom';
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
 import "styles/views/Game.scss";
@@ -60,19 +60,28 @@ const Overview = () => {
     fetchData();
   }, []);
 
-  let content = <Spinner/>;
+  let content = <Spinner />;
 
   if (users) {
     content = (
       <div className="game">
         <ul className="game user-list">
           {users.map(user => (
-            <div>
+            (localStorage.getItem("token") === user.token) ?(
+              <div>
+                <a
+                  style={{ color: "green" }}
 
-            
-            <a href={'/profile/' + user.id}>{user.username}, Id: {user.id}</a>
-            </div>
-          ))}
+                  href={'/profile/' + user.id}>{user.username}, Id: {user.id}</a>
+              </div>)
+              :
+              <div>
+                <a
+                  style={{ color: "inherit" }}
+
+                  href={'/profile/' + user.id}>{user.username}, Id: {user.id}</a>
+              </div>)
+          )}
         </ul>
         <Button
           width="100%"
@@ -85,7 +94,7 @@ const Overview = () => {
   }
 
   return (
-    <div style={{display: "flex", flexDirection: "column"}}>
+    <div style={{ display: "flex", flexDirection: "column" }}>
       <BaseContainer className="game container">
         <h2>Happy Coding!</h2>
         <p className="game paragraph">

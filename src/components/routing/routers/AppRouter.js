@@ -6,6 +6,7 @@ import Login from "components/views/Login";
 import Register from "components/views/Register";
 import Overview from "components/views/Overview";
 import Profile from "components/views/Profile";
+import ProfileEdit from "components/views/ProfileEdit";
 
 /**
  * Main router of your application.
@@ -43,6 +44,11 @@ const AppRouter = () => {
         <Route path="/profile/:id">
           <GameGuard>
             <Profile/>
+          </GameGuard>
+        </Route>
+        <Route path="/edit/:id">
+          <GameGuard>
+            <ProfileEdit/>
           </GameGuard>
         </Route>
         <Route exact path="/">

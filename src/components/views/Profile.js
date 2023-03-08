@@ -8,16 +8,10 @@ import PropTypes from "prop-types";
 import "styles/views/Game.scss";
 
 const Profile = () => {
-  // use react-router-dom's hook to access the history
   const history = useHistory();
   const {id} = useParams();
   const [isMyProfile, setIsMyProfile] = useState(null);
 
-  // define a state variable (using the state hook).
-  // if this variable changes, the component will re-render, but the variable will
-  // keep its value throughout render cycles.
-  // a component can have as many state variables as you like.
-  // more information can be found under https://reactjs.org/docs/hooks-state.html
   const [user, setUser] = useState(null);
 
   const logout = () => {
@@ -25,10 +19,6 @@ const Profile = () => {
     history.push('/login');
   }
 
-  // the effect hook can be used to react to change in your component.
-  // in this case, the effect hook is only run once, the first time the component is mounted
-  // this can be achieved by leaving the second argument an empty array.
-  // for more information on the effect hook, please see https://reactjs.org/docs/hooks-effect.html
   useEffect(() => {
     // if(id.isNaN()){
     //     alert(id + " is not a valid number");
@@ -75,6 +65,7 @@ const Profile = () => {
         alert('Internal server error');
       }
       console.log(error.response);
+      history.push("/overview")
       }
     }
 
@@ -88,27 +79,28 @@ const Profile = () => {
 
   if(user){
     content = (
-        <div>
-        <div>Username: {user.username}</div>
-        <div>Name: {user.name ?? "not set"}</div>
-        <div>Status: {user.status}</div>
-        <div>Birthday: {user.birthday ?? "not set"}</div>
-        <div>With us since: {user.creationDate}</div>
-        { isMyProfile && (<Button onClick= {() => {history.push("/profile/edit/"+id)}}>Edit</Button>)}
-        </div>
-        
+        <BaseContainer className="game container">
+            {isMyProfile ? (<h3>Your profile</h3>) : (<h3>{user.username}'s profile</h3>)}
+            <div>
+                <div>Username: {user.username}</div>
+                <div>Name: {user.name ?? "not set"}</div>
+                <div>Status: {user.status}</div>
+                <div>Birthday: {user.birthday ?? "not set"}</div>
+                <div>With us since: {user.creationDate}</div>
+            </div>
+            { isMyProfile && (
+                <div className="login button-container">
+                    <Button width="100%" onClick= {() => {history.push("/edit/"+id)}}>Edit</Button>
+                    <Button width="100%" onClick = {() => logout()}>Logout</Button>
+                </div>
+            )}
+        </BaseContainer> 
     );  
   }
 
   return (
     <div style={{display: "flex", flexDirection: "column"}}>
-        <div className="game">
-        <BaseContainer>
             {content}
-           
-
-        </BaseContainer> 
-        </div>
     </div>
   );
 }
