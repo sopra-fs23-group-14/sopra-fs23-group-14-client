@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { api, handleError } from 'helpers/api';
+import { api } from 'helpers/api';
 import { Spinner } from 'components/ui/Spinner';
 import { Button } from 'components/ui/Button';
 import { useHistory, useParams } from 'react-router-dom';
@@ -34,7 +34,6 @@ const ProfileEdit = () => {
     // use react-router-dom's hook to access the history
     const history = useHistory();
     const { id } = useParams();
-    const [isMyProfile, setIsMyProfile] = useState(null);
 
     const [user, setUser] = useState(null);
 
@@ -84,8 +83,6 @@ const ProfileEdit = () => {
                     history.push("/overview");
                 }
 
-                console.log("Is my profile: " + isMyProfile);
-
                 // See here to get more data.
                 console.log(response);
             } catch (error) {
@@ -102,6 +99,7 @@ const ProfileEdit = () => {
         }
 
         fetchData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     let content = <Spinner />;

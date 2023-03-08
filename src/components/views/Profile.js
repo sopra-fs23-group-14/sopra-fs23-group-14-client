@@ -1,10 +1,9 @@
 import {useEffect, useState} from 'react';
-import {api, handleError} from 'helpers/api';
+import {api} from 'helpers/api';
 import {Spinner} from 'components/ui/Spinner';
 import {Button} from 'components/ui/Button';
 import {useHistory, useParams} from 'react-router-dom';
 import BaseContainer from "components/ui/BaseContainer";
-import PropTypes from "prop-types";
 import "styles/views/Game.scss";
 
 const Profile = () => {
@@ -20,27 +19,12 @@ const Profile = () => {
   }
 
   useEffect(() => {
-    // if(id.isNaN()){
-    //     alert(id + " is not a valid number");
-    //     history.push("/overview");
-    // }
-    // effect callbacks are synchronous to prevent race conditions. So we put the async function inside:
-    async function fetchData() {
+      async function fetchData() {
       try {
         const response = await api.get('/users/'+id);
 
-        // delays continuous execution of an async operation for 1 second.
-        // This is just a fake async call, so that the spinner can be displayed
-        // feel free to remove it :)
-        // await new Promise(resolve => setTimeout(resolve, 1000));
-
-        // Get the returned users and update the state.
         setUser(response.data);
 
-        
-
-        // This is just some data for you to see what is available.
-        // Feel free to remove it.
         console.log('request to:', response.request.responseURL);
         console.log('status code:', response.status);
         console.log('status text:', response.statusText);
@@ -53,7 +37,6 @@ const Profile = () => {
         
         console.log("Is my profile: " + isMyProfile);
         
-        // See here to get more data.
         console.log(response);
       } catch (error) {
         console.log(error);
@@ -66,12 +49,13 @@ const Profile = () => {
       }
       console.log(error.response);
       history.push("/overview")
+      
       }
     }
 
     fetchData();
     
-    
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   let content = <Spinner/>;
